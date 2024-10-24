@@ -1,0 +1,70 @@
+.App{
+  text-align: center;
+}
+.board{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.todo{
+  width: 25%;
+  height: 400px;
+}
+.in-progress{
+  width: 25%;
+  height: 400px;
+  margin: 0 10px;
+}
+.review{
+  width: 25%;
+  height: 400px;
+}
+.done{
+  width: 25%;
+  height: 400px;
+  margin: 0 0 0 10px;
+}
+.todo-col{
+  background-color: beige;
+  padding: 10px 0px;
+}
+.in-progress-col{
+  background-color: lightblue;
+  padding: 10px 0px;
+}
+.review-col{
+  background-color: lightcoral;
+  padding: 10px 0px;
+}
+.done-col{
+  background-color: lightgreen;
+  padding: 10px 0px;
+}
+.task-item{
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 30px;
+  border: 0.7px solid lightgray;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: grab;
+  font-size: 20px;
+  
+}
+.task-item:hover{
+  background-color: lightgray;
+}
+.btn{
+  width: 60px;
+  height: 60px;
+  padding: 8px;
+
+}
+.btn:hover{
+  background-color: azure;
+  cursor: pointer;
+  border-radius: 50%;
+}
