@@ -11,6 +11,7 @@ function App() {
   const [value, setValue] = useState("");
   const [task, setTask] = useState([]);
   const [dragTask, setDragTask] = useState(null);
+  const [updateItem, setUpdateItem] = useState(null);
 
   const handleChange = (e) => {
     setValue(e.target.value);
@@ -18,12 +19,25 @@ function App() {
 
   const handleKeyDown = (e) => {
     if (e.keyCode === 13) { // Enter key pressed
-      const obj = {
-        title: value,
-        status: TODO,
-        id: Date.now(),
-      };
-      setTask((prevTask) => [...prevTask, obj]);
+      if(updateItem){ // user is coming for an update
+        const obj = {
+          title: value,
+          id: updateItem.id,
+          status: updateItem.status
+        }
+        const copyTask = [...task];
+        const filerList = 
+        copyTask.filter((item) => item.id !== updateItem.id);
+        setTask((prevTask) =>[...filerList,obj]);
+        setUpdateItem(null);
+      }else{
+        const obj = {
+          title: value,
+          status: TODO,
+          id: Date.now(),
+        };
+        setTask((prevTask) => [...prevTask, obj]);
+      }
       setValue("");
     }
   };
@@ -61,6 +75,15 @@ function App() {
   const onDragOver = (e) => {
     e.preventDefault();
   };
+  const deleteTask = (item) =>{
+    let copyTask = [...task];
+    copyTask = copyTask.filter((task) => task.id !== item.id);
+    setTask(copyTask); 
+  }
+  const updateTask = (task) =>{
+    setUpdateItem(task);
+    setValue(task.title);
+  }
 
   return (
     <div className="App">
@@ -89,8 +112,12 @@ function App() {
               >
                 {task.title}
                 <div>
-                  <span className="btn">✏️</span>
-                  <span className="btn">✖</span>
+                  <span className="btn"
+                  onClick={() => updateTask(task)}
+                  >✏️</span>
+                  <span 
+                  onClick={(e) =>deleteTask(task)}
+                  className="btn">✖</span>
                 </div>
               </div>
             )
@@ -106,6 +133,7 @@ function App() {
           {task.length > 0 && task.map((task) => (
             task.status === PROGRESS && (
               <div
+               onDrag={(e) => handleDrag(e, task)}
                 draggable
                 key={task.id}
                 className="task-item"
@@ -113,7 +141,9 @@ function App() {
                 {task.title}
                 <div>
                   <span className="btn">✏️</span>
-                  <span className="btn">✖</span>
+                  <span 
+                  onClick={(e) =>deleteTask(task)}
+                  className="btn">✖</span>
                 </div>
               </div>
             )
@@ -129,6 +159,7 @@ function App() {
           {task.length > 0 && task.map((task) => (
             task.status === REVIEW && (
               <div
+                onDrag={(e) => handleDrag(e, task)}
                 draggable
                 key={task.id}
                 className="task-item"
@@ -136,7 +167,9 @@ function App() {
                 {task.title}
                 <div>
                   <span className="btn">✏️</span>
-                  <span className="btn">✖</span>
+                  <span 
+                  onClick={(e) =>deleteTask(task)}
+                  className="btn">✖</span>
                 </div>
               </div>
             )
@@ -152,6 +185,7 @@ function App() {
           {task.length > 0 && task.map((task) => (
             task.status === DONE && (
               <div
+                onDrag={(e) => handleDrag(e, task)}
                 draggable
                 key={task.id}
                 className="task-item"
@@ -159,7 +193,9 @@ function App() {
                 {task.title}
                 <div>
                   <span className="btn">✏️</span>
-                  <span className="btn">✖</span>
+                  <span 
+                  onClick={(e) =>deleteTask(task)}
+                  className="btn">✖</span>
                 </div>
               </div>
             )
