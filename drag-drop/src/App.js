@@ -1,12 +1,11 @@
-
 import { useState } from "react";
 import "./App.css";
 
 function App() {
   const TODO = "TODO";
-  const PROGRESS = "PROGRESS"; // Fixed typo
+  const PROGRESS = "PROGRESS"; 
   const REVIEW = "REVIEW";
-  const DONE = "DONE"; // Consistent capitalization
+  const DONE = "DONE"; 
 
   const [value, setValue] = useState("");
   const [task, setTask] = useState([]);
@@ -18,19 +17,20 @@ function App() {
   };
 
   const handleKeyDown = (e) => {
-    if (e.keyCode === 13) { // Enter key pressed
-      if(updateItem){ // user is coming for an update
+    if (e.keyCode === 13) {
+      // Enter key pressed
+      if (updateItem) {
+        // user is coming for an update
         const obj = {
           title: value,
           id: updateItem.id,
-          status: updateItem.status
-        }
+          status: updateItem.status,
+        };
         const copyTask = [...task];
-        const filerList = 
-        copyTask.filter((item) => item.id !== updateItem.id);
-        setTask((prevTask) =>[...filerList,obj]);
+        const filerList = copyTask.filter((item) => item.id !== updateItem.id);
+        setTask((prevTask) => [...filerList, obj]);
         setUpdateItem(null);
-      }else{
+      } else {
         const obj = {
           title: value,
           status: TODO,
@@ -60,10 +60,11 @@ function App() {
   };
 
   const handleDrop = (e) => {
-    const status = e.target.getAttribute('data-status');
+    const status = e.target.getAttribute("data-status");
     if (status === TODO) {
       handleDragDrop(TODO);
-    } else if (status === PROGRESS) { // Fixed typo
+    } else if (status === PROGRESS) {
+      // Fixed typo
       handleDragDrop(PROGRESS);
     } else if (status === REVIEW) {
       handleDragDrop(REVIEW);
@@ -75,15 +76,15 @@ function App() {
   const onDragOver = (e) => {
     e.preventDefault();
   };
-  const deleteTask = (item) =>{
+  const deleteTask = (item) => {
     let copyTask = [...task];
     copyTask = copyTask.filter((task) => task.id !== item.id);
-    setTask(copyTask); 
-  }
-  const updateTask = (task) =>{
+    setTask(copyTask);
+  };
+  const updateTask = (task) => {
     setUpdateItem(task);
     setValue(task.title);
-  }
+  };
 
   return (
     <div className="App">
@@ -96,110 +97,128 @@ function App() {
       />
 
       <div className="board">
-        <div className="todo"
+        <div
+          className="todo"
           onDrop={handleDrop}
           onDragOver={onDragOver}
-          data-status={TODO} // Corrected attribute
+          data-status={TODO} 
         >
           <h2 className="todo-col">Todo</h2>
-          {task.length > 0 && task.map((task) => (
-            task.status === TODO && (
-              <div
-                onDrag={(e) => handleDrag(e, task)}
-                draggable
-                key={task.id}
-                className="task-item"
-              >
-                {task.title}
-                <div>
-                  <span className="btn"
-                  onClick={() => updateTask(task)}
-                  >✏️</span>
-                  <span 
-                  onClick={(e) =>deleteTask(task)}
-                  className="btn">✖</span>
-                </div>
-              </div>
-            )
-          ))}
+          {task.length > 0 &&
+            task.map(
+              (task) =>
+                task.status === TODO && (
+                  <div
+                    onDrag={(e) => handleDrag(e, task)}
+                    draggable
+                    key={task.id}
+                    className="task-item"
+                  >
+                    {task.title}
+                    <div>
+                      <span className="btn" onClick={() => updateTask(task)}>
+                        ✏️
+                      </span>
+                      <span onClick={(e) => deleteTask(task)} className="btn">
+                        ✖
+                      </span>
+                    </div>
+                  </div>
+                )
+            )}
         </div>
 
-        <div className="in-progress"
-          data-status={PROGRESS} // Corrected attribute
+        <div
+          className="in-progress"
+          data-status={PROGRESS} 
           onDrop={handleDrop}
           onDragOver={onDragOver}
         >
           <h2 className="in-progress-col">In Progress</h2>
-          {task.length > 0 && task.map((task) => (
-            task.status === PROGRESS && (
-              <div
-               onDrag={(e) => handleDrag(e, task)}
-                draggable
-                key={task.id}
-                className="task-item"
-              >
-                {task.title}
-                <div>
-                  <span className="btn">✏️</span>
-                  <span 
-                  onClick={(e) =>deleteTask(task)}
-                  className="btn">✖</span>
-                </div>
-              </div>
-            )
-          ))}
+          {task.length > 0 &&
+            task.map(
+              (task) =>
+                task.status === PROGRESS && (
+                  <div
+                    onDrag={(e) => handleDrag(e, task)}
+                    draggable
+                    key={task.id}
+                    className="task-item"
+                  >
+                    {task.title}
+                    <div>
+                      <span className="btn" onClick={() => updateTask(task)}>
+                        ✏️
+                      </span>
+                      <span onClick={(e) => deleteTask(task)} className="btn">
+                        ✖
+                      </span>
+                    </div>
+                  </div>
+                )
+            )}
         </div>
 
-        <div className="review"
-          data-status={REVIEW} // Corrected attribute
+        <div
+          className="review"
+          data-status={REVIEW} 
           onDrop={handleDrop}
           onDragOver={onDragOver}
         >
           <h2 className="review-col">Review</h2>
-          {task.length > 0 && task.map((task) => (
-            task.status === REVIEW && (
-              <div
-                onDrag={(e) => handleDrag(e, task)}
-                draggable
-                key={task.id}
-                className="task-item"
-              >
-                {task.title}
-                <div>
-                  <span className="btn">✏️</span>
-                  <span 
-                  onClick={(e) =>deleteTask(task)}
-                  className="btn">✖</span>
-                </div>
-              </div>
-            )
-          ))}
+          {task.length > 0 &&
+            task.map(
+              (task) =>
+                task.status === REVIEW && (
+                  <div
+                    onDrag={(e) => handleDrag(e, task)}
+                    draggable
+                    key={task.id}
+                    className="task-item"
+                  >
+                    {task.title}
+                    <div>
+                      <span className="btn" onClick={() => updateTask(task)}>
+                        ✏️
+                      </span>
+                      <span onClick={(e) => deleteTask(task)} className="btn">
+                        ✖
+                      </span>
+                    </div>
+                  </div>
+                )
+            )}
         </div>
 
-        <div className="done"
-          data-status={DONE} // Corrected attribute
+        <div
+          className="done"
+          data-status={DONE} 
           onDrop={handleDrop}
           onDragOver={onDragOver}
         >
           <h2 className="done-col">Done</h2>
-          {task.length > 0 && task.map((task) => (
-            task.status === DONE && (
-              <div
-                onDrag={(e) => handleDrag(e, task)}
-                draggable
-                key={task.id}
-                className="task-item"
-              >
-                {task.title}
-                <div>
-                  <span className="btn">✏️</span>
-                  <span 
-                  onClick={(e) =>deleteTask(task)}
-                  className="btn">✖</span>
-                </div>
-              </div>
-            )
-          ))}
+          {task.length > 0 &&
+            task.map(
+              (task) =>
+                task.status === DONE && (
+                  <div
+                    onDrag={(e) => handleDrag(e, task)}
+                    draggable
+                    key={task.id}
+                    className="task-item"
+                  >
+                    {task.title}
+                    <div>
+                      <span className="btn" onClick={() => updateTask(task)}>
+                        ✏️
+                      </span>
+                      <span onClick={(e) => deleteTask(task)} className="btn">
+                        ✖
+                      </span>
+                    </div>
+                  </div>
+                )
+            )}
         </div>
       </div>
     </div>
